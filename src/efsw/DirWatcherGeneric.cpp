@@ -82,9 +82,9 @@ void DirWatcherGeneric::resetDirectory( std::string directory ) {
 
 void DirWatcherGeneric::handleAction( const std::string& filename, unsigned long action,
 									  std::string oldFilename ) {
-	Watch->Listener->handleFileAction( Watch->ID, DirSnap.DirectoryInfo.Filepath,
-									   FileSystem::fileNameFromPath( filename ), (Action)action,
-									   oldFilename );
+	FileAction fileAction( Watch->ID, DirSnap.DirectoryInfo.Filepath,
+						   FileSystem::fileNameFromPath( filename ), oldFilename, (Action)action );
+	Watch->Listener->handleFileAction( fileAction );
 }
 
 void DirWatcherGeneric::addChilds( bool reportNewFiles ) {
@@ -139,9 +139,11 @@ void DirWatcherGeneric::watch( bool reportOwnChange ) {
 	DirectorySnapshotDiff Diff = DirSnap.scan();
 
 	if ( reportOwnChange && Diff.DirChanged && NULL != Parent ) {
-		Watch->Listener->handleFileAction(
+		FileAction fileAction(
 			Watch->ID, FileSystem::pathRemoveFileName( DirSnap.DirectoryInfo.Filepath ),
-			FileSystem::fileNameFromPath( DirSnap.DirectoryInfo.Filepath ), Actions::Modified );
+			FileSystem::fileNameFromPath( DirSnap.DirectoryInfo.Filepath ), "", Actions::Modified );
+
+		Watch->Listener->handleFileAction( fileAction );
 	}
 
 	if ( Diff.changed() ) {

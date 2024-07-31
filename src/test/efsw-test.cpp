@@ -31,14 +31,13 @@ class UpdateListener : public efsw::FileWatchListener {
 		}
 	}
 
-	void handleFileAction( efsw::WatchID watchid, const std::string& dir,
-						   const std::string& filename, efsw::Action action,
-						   std::string oldFilename = "" ) override {
-		std::cout << "Watch ID " << watchid << " DIR ("
-				  << dir + ") FILE (" +
-						 ( oldFilename.empty() ? "" : "from file " + oldFilename + " to " ) +
-						 filename + ") has event "
-				  << getActionName( action ) << std::endl;
+	void handleFileAction( efsw::FileAction& fileAction ) override {
+		std::cout << "Watch ID " << fileAction.ID << " DIR ("
+				  << fileAction.Directory.string() + ") FILE (" +
+						 ( fileAction.OldFilename.empty() ? ""
+							   : "from file " + fileAction.OldFilename.string() + " to " ) +
+						 fileAction.Filename.string() + ") has event "
+				  << getActionName( fileAction.Action ) << std::endl;
 	}
 };
 

@@ -15,11 +15,10 @@ class Watcher_CAPI : public efsw::FileWatchListener {
 	Watcher_CAPI( efsw_watcher watcher, efsw_pfn_fileaction_callback fn, void* param ) :
 		mWatcher( watcher ), mFn( fn ), mParam( param ) {}
 
-	void handleFileAction( efsw::WatchID watchid, const std::string& dir,
-						   const std::string& filename, efsw::Action action,
-						   std::string oldFilename = "" ) {
-		mFn( mWatcher, watchid, dir.c_str(), filename.c_str(), (enum efsw_action)action,
-			 oldFilename.c_str(), mParam );
+	void handleFileAction( efsw::FileAction& fileAction) {
+		mFn( mWatcher, fileAction.ID, fileAction.Directory.string().c_str(),
+			 fileAction.Filename.string().c_str(), (enum efsw_action)fileAction.Action,
+			 fileAction.OldFilename.string().c_str(), mParam );
 	}
 };
 

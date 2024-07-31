@@ -133,7 +133,7 @@ workspace "efsw"
 		defines { "EFSW_VERBOSE" }
 	end
 
-	cppdialect "C++11"
+	cppdialect "C++17"
 
 	objdir("obj/" .. os.target() .. "/")
 

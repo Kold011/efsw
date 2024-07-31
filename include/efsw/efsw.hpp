@@ -31,6 +31,7 @@
 #include <vector>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 #if defined( _WIN32 )
 #ifdef EFSW_DYNAMIC
@@ -64,7 +65,7 @@
 namespace efsw {
 
 /// Type for a watch id
-typedef long WatchID;
+typedef uint32_t WatchID;
 
 // forward declarations
 class FileWatcherImpl;
@@ -211,21 +212,41 @@ class EFSW_API FileWatcher {
 	bool mOutOfScopeLinks;
 };
 
+struct FileAction
+{
+  public:
+	uint8_t ID;
+	std::filesystem::path Directory;
+	std::filesystem::path Filename;
+	std::filesystem::path OldFilename;
+	Action Action;
+
+	FileAction( uint8_t id, const std::filesystem::path& directory,
+				const std::filesystem::path& filename, const std::filesystem::path& oldFilename,
+				efsw::Action action ) :
+		ID( id ),
+		Directory( directory ),
+		Filename( filename ),
+		OldFilename( oldFilename ),
+		Action(action)
+	{ }
+};
 /// Basic interface for listening for file events.
 /// @class FileWatchListener
 class FileWatchListener {
   public:
 	virtual ~FileWatchListener() {}
 
+protected:
+	friend class DirWatcherGeneric;
+  friend class FileWatcherWin32;
 	/// Handles the action file action
 	/// @param watchid The watch id for the directory
 	/// @param dir The directory
 	/// @param filename The filename that was accessed (not full path)
 	/// @param action Action that was performed
 	/// @param oldFilename The name of the file or directory moved
-	virtual void handleFileAction( WatchID watchid, const std::string& dir,
-								   const std::string& filename, Action action,
-								   std::string oldFilename = "" ) = 0;
+	virtual void handleFileAction(FileAction& fileAction) = 0;
 };
 
 /// Optional, typically platform specific parameter for customization of a watcher.
