@@ -152,7 +152,7 @@ workspace "efsw"
 	project "efsw-static-lib"
 		kind "StaticLib"
 		language "C++"
-		targetdir("./lib")
+		targetdir("./Lib")
 		includedirs { "include", "src" }
 		files { "src/efsw/*.cpp", osfiles }
 		conf_excludes()

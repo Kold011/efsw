@@ -2,7 +2,6 @@ bin/
 build/
 obj/
 make/
-lib/
 CMakeFiles/
 /cmake
 /CMakeCache.txt
@@ -15,7 +14,6 @@ CMakeFiles/
 *.so
 *.a
 *.dylib
-*.lib
 /.cache
 /efsw-test
 /efsw-test-stdc
