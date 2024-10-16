@@ -152,7 +152,7 @@ workspace "efsw"
 	project "efsw-static-lib"
 		kind "StaticLib"
 		language "C++"
-		targetdir("./Lib")
+		targetdir("./Lib/%{cfg.buildcfg}")
 		includedirs { "include", "src" }
 		files { "src/efsw/*.cpp", osfiles }
 		conf_excludes()
@@ -166,7 +166,7 @@ workspace "efsw"
 		filter "configurations:release"
 			defines { "NDEBUG" }
 			optimize "On"
-			targetname "efsw-static-release"
+			targetname "efsw-static"
 			conf_warnings()
 
 		filter "configurations:relwithdbginfo"
