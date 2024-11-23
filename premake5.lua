@@ -135,6 +135,8 @@ project "efsw-static-lib"
 		defines { "EFSW_VERBOSE" }
 	end
 
+	flags { "MultiProcessorCompile" }
+	
 	includedirs { "include", "src" }
 	
 	files { "src/efsw/*.cpp", osfiles }

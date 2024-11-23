@@ -19,3 +19,4 @@ CMakeFiles/
 /efsw-test-stdc
 *.lib
 *.pdb
+*.vcxproj
