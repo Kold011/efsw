@@ -17,3 +17,5 @@ CMakeFiles/
 /.cache
 /efsw-test
 /efsw-test-stdc
+*.lib
+*.pdb
